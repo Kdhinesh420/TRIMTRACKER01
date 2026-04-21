@@ -1,0 +1,17 @@
+success 200
+
+bad request 400
+(private apis - authorization) - 401 Unauthorized
+Not Found 404 
+Schema related (any failure) - 422 
+
+internal server error 500
+
+
+1. pick any module 
+2. implement a CRUD operation - 
+3. test with Postman and discuss
+
+Bonus:
+* have Joi validation for your payloads - (create, update)
+* 2nd Task -> integrate your APIs (5 nos ) with React Application
