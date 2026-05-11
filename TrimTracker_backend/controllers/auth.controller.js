@@ -1,9 +1,3 @@
-//====
-// controllers/auth.controller.js
-// Register & Login handlers
-// Unga pattern: named functions → exported as object
-//====
-
 import authServices from "../services/auth.services.js";
 import authHelpers from "../helpers/auth.js";
 import { StatusCodes } from "http-status-codes";
@@ -11,7 +5,8 @@ import { StatusCodes } from "http-status-codes";
 // ---- POST /api/auth/register ----
 const register = async (req, res) => {
   try {
-    const { name, email, phone, password, role } = req.body;
+    // ✅ district destructure pannittom
+    const { name, email, phone, password, role, district } = req.body;
 
     // Step 1: Email already used-a check pannuvom
     const existingUser = await authServices.findUserByEmail(email);
@@ -21,8 +16,15 @@ const register = async (req, res) => {
       });
     }
 
-    // Step 2: Create new user
-    const result = await authServices.createUser({ name, email, phone, password, role });
+    // Step 2: Create new user — district also save pannuvom
+    const result = await authServices.createUser({
+      name,
+      email,
+      phone,
+      password,
+      role,
+      district, // ✅ DB-la save pannuvom
+    });
 
     // Step 3: Token generate panni return pannuvom
     const token = authHelpers.generateToken({
@@ -33,7 +35,7 @@ const register = async (req, res) => {
     return res.status(StatusCodes.CREATED).json({
       message: "Account created successfully!",
       token,
-      user: { name, email, role }, // Password return pannaamal!
+      user: { name, email, role, district }, // ✅ Response-layum include pannittom
     });
   } catch (error) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -48,7 +50,6 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Step 1: User exists-a check pannuvom
     const user = await authServices.findUserByEmail(email);
     if (!user) {
       return res.status(StatusCodes.UNAUTHORIZED).json({
@@ -56,7 +57,6 @@ const login = async (req, res) => {
       });
     }
 
-    // Step 2: Password match pannuvom
     const isPasswordValid = await authHelpers.verifyPassword(password, user.password);
     if (!isPasswordValid) {
       return res.status(StatusCodes.UNAUTHORIZED).json({
@@ -64,7 +64,6 @@ const login = async (req, res) => {
       });
     }
 
-    // Step 3: Token generate pannuvom
     const token = authHelpers.generateToken({
       userId: user._id.toString(),
       role: user.role,
@@ -78,6 +77,7 @@ const login = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        district: user.district, // ✅ Login response-layum include pannittom
       },
     });
   } catch (error) {
