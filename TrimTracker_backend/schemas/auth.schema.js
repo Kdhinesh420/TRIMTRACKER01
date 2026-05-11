@@ -41,3 +41,14 @@ export const loginSchema = Joi.object({
   email: Joi.string().email().lowercase().trim().required(),
   password: Joi.string().required(),
 });
+export const registerSchema = Joi.object({
+  name: Joi.string().min(2).max(60).required(),
+  email: Joi.string().email().lowercase().trim().required(),
+  phone: Joi.string().pattern(/^[6-9]\d{9}$/).required(),
+  password: Joi.string().min(6).required(),
+  role: Joi.string().valid("customer", "owner").required(),
+
+  district: Joi.string().min(2).max(100).required().messages({
+    "string.empty": "District is required",
+  }), // ✅ Add pannittom
+});
