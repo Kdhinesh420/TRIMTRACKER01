@@ -10,6 +10,10 @@ export const createSalonSchema = Joi.object({
   salonName: Joi.string().min(2).required().messages({
     "string.empty": "Salon name is required",
   }),
+  district: Joi.string().min(2).max(100).required().messages({
+    "string.empty": "District is required",
+    "string.min": "District must be at least 2 characters",
+  }),
 
   address: Joi.string().min(5).required().messages({
     "string.empty": "Address is required",
