@@ -1,13 +1,6 @@
-//====
-// schemas/auth.schema.js
-// Register & Login form validation — Joi use pannrom
-// Unga existing pattern: Joi.object() → export
-//====
-
 import Joi from "joi";
 
 // ---- Register validation ----
-// User form submit panna, idha match pannuvom
 export const registerSchema = Joi.object({
   name: Joi.string().min(2).max(60).required().messages({
     "string.empty": "Name is required",
@@ -20,7 +13,7 @@ export const registerSchema = Joi.object({
   }),
 
   phone: Joi.string()
-    .pattern(/^[6-9]\d{9}$/) // Indian mobile number pattern
+    .pattern(/^[6-9]\d{9}$/)
     .required()
     .messages({
       "string.pattern.base": "Enter a valid 10-digit Indian mobile number",
@@ -30,9 +23,14 @@ export const registerSchema = Joi.object({
     "string.min": "Password must be at least 6 characters",
   }),
 
-  // role = "customer" or "owner" — only these two allowed
   role: Joi.string().valid("customer", "owner").required().messages({
     "any.only": "Role must be either 'customer' or 'owner'",
+  }),
+
+  // ✅ district add pannittom
+  district: Joi.string().min(2).max(100).required().messages({
+    "string.empty": "District is required",
+    "string.min": "District must be at least 2 characters",
   }),
 });
 
