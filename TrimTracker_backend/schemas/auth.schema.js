@@ -27,11 +27,7 @@ export const registerSchema = Joi.object({
     "any.only": "Role must be either 'customer' or 'owner'",
   }),
 
-  // ✅ district add pannittom
-  district: Joi.string().min(2).max(100).required().messages({
-    "string.empty": "District is required",
-    "string.min": "District must be at least 2 characters",
-  }),
+
 });
 
 // ---- Login validation ----
