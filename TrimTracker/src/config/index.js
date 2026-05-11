@@ -6,7 +6,7 @@
 
 const config = {
   // Your Express backend URL. Change when deployed.
-  API_BASE_URL: "http://localhost:8000/api",
+  API_BASE_URL: "https://trimtracker01.onrender.com",
 
   APP_NAME: "TrimTracker",
   VERSION: "1.0.0",
